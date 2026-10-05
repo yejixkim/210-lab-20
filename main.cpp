@@ -1,5 +1,8 @@
+// COMSC 210 | Lab 20 | Yeji Kim
 #include <iostream>
 #include <iomanip>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 const int SIZE = 3;
@@ -21,6 +24,13 @@ public:
         legs = l;
         for (int i = 0; i < SIZE; i++)
             prices[i] = 0;
+    }
+
+    Chair(int l, double p[]) {
+        prices = new double[SIZE];
+        legs = l;
+        for (int i = 0; i < SIZE; i++)
+            prices[i] = p[i];
     }
 
     // setters and getters
@@ -51,20 +61,29 @@ public:
 int main() {
     cout << fixed << setprecision(2);
 
+    //seeding random number generator
+    srand(time(0));
+
     //creating pointer to first chair object
     Chair *chairPtr = new Chair;
     chairPtr->setLegs(4);
     chairPtr->setPrices(121.21, 232.32, 414.14);
+    cout << "First chair: " << endl;
     chairPtr->print();
 
     //creating dynamic chair object with constructor
-    Chair *livingChair = new Chair(3);
-    livingChair->setPrices(525.25, 434.34, 252.52);
+    double livingPrices[SIZE] = {525.25, 434.34, 252.52};
+
+    Chair *livingChair = new Chair(3, livingPrices);
+
+    cout << "Living room chair: " << endl;
     livingChair->print();
+
     delete livingChair;
     livingChair = nullptr;
 
     //creating dynamic array of chair objects
+    
     Chair *collection = new Chair[SIZE];
     collection[0].setLegs(4);
     collection[0].setPrices(441.41, 552.52, 663.63);
