@@ -13,25 +13,27 @@ private:
     double * prices;
 public:
     // constructors
-    Chair() {
-        prices = new double[SIZE];
-        legs = 0;
-        for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
-    }
-    Chair(int l) {
-        prices = new double[SIZE];
-        legs = l;
-        for (int i = 0; i < SIZE; i++)
-            prices[i] = 0;
-    }
+Chair() {
+    prices = new double[SIZE];
 
-    Chair(int l, double p[]) {
-        prices = new double[SIZE];
-        legs = l;
-        for (int i = 0; i < SIZE; i++)
-            prices[i] = p[i];
-    }
+    // randomly select 3 or 4 legs
+    legs = rand() % 2 + 3;
+
+    // randomly select prices from $100.00 to $999.99
+    const int MIN = 10000;
+    const int MAX = 99999;
+
+    for (int i = 0; i < SIZE; i++)
+        prices[i] = (rand() % (MAX - MIN + 1) + MIN) / (double)100;
+}
+
+Chair(int l, double p[]) {
+    prices = new double[SIZE];
+    legs = l;
+
+    for (int i = 0; i < SIZE; i++)
+        prices[i] = p[i];
+}
 
     // setters and getters
     void setLegs(int l)      { legs = l; }
@@ -71,6 +73,9 @@ int main() {
     cout << "First chair: " << endl;
     chairPtr->print();
 
+    delete chairPtr;
+    chairPtr = nullptr;
+
     //creating dynamic chair object with constructor
     double livingPrices[SIZE] = {525.25, 434.34, 252.52};
 
@@ -83,16 +88,17 @@ int main() {
     livingChair = nullptr;
 
     //creating dynamic array of chair objects
-    
+    //default constructors randomly populate each chair
     Chair *collection = new Chair[SIZE];
-    collection[0].setLegs(4);
-    collection[0].setPrices(441.41, 552.52, 663.63);
-    collection[1].setLegs(4);
-    collection[1].setPrices(484.84, 959.59, 868.68);
-    collection[2].setLegs(4);
-    collection[2].setPrices(626.26, 515.15, 757.57);
-    for (int i = 0; i < SIZE; i++)
+
+    cout << "Randomly generated chairs: " << endl;
+
+    for (int i = 0; i < SIZE; i++) {
         collection[i].print();
-    
+    }
+
+    delete[] collection;
+        collection = nullptr;
+     
     return 0;
 }
